@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
-* Студент: [Maria Brus](https://up.htmlacademy.ru/javascript/25/user/351483).
-* Наставник: `Неизвестно`.
+* Студент: [Мария Брюс](https://up.htmlacademy.ru/javascript/25/user/351483).
+* Наставник: [Владислав Зубко](https://htmlacademy.ru/profile/whatislove).
 
 ---
 
