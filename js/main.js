@@ -30,6 +30,11 @@ const PHOTOLINKS = [
   'claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+const minLat = 35.65000;
+const maxLat = 35.70000;
+const minLng = 139.70000;
+const maxLng = 139.80000;
+
 const QUANTITYADS = 10;
 // function random number from two integers number
 
@@ -54,15 +59,6 @@ const getFloatingPointNumber = (a, b, digits = 1) => {
 const getNumberAvatar = () => {
   const numberPhoto = String(getRandomNumber(1, 10));
   return (numberPhoto.length === 1) ? `0${numberPhoto}` : numberPhoto;
-};
-
-// get author array
-
-const getAuthor = () => {
-  const authorArr = {};
-  authorArr['avatar'] = `img/avatars/user${getNumberAvatar()}.png`;
-
-  return authorArr;
 };
 
 //GET RANDOM FEATURES
@@ -104,54 +100,40 @@ const getRandomPhotos = () => {
   return photoHotels;
 };
 
-// Random Location
-
-const getRandomLocation = () => {
-  const minLat = 35.65000;
-  const maxLat = 35.70000;
-  const minLng = 139.70000;
-  const maxLng = 139.80000;
-  const randomLocation = {};
-  randomLocation['lat'] = getFloatingPointNumber(minLat, maxLat, 5);
-  randomLocation['lng'] = getFloatingPointNumber(minLng, maxLng, 5);
-  return randomLocation;
-};
-const locationHotel = getRandomLocation();
-
-// Adress location
-
-const getOfferAdress = () => {
-  let adress = '';
-  for (const key in locationHotel) {
-    adress += `${locationHotel[key]}.${key}, `;
-  }
-
-  const offerAdress = adress.slice(0,-2);
-  return offerAdress;
-};
-
 // out add
 
-function outAdd () {
-  return {
-    'author': getAuthor(),
-    'offer': {
-      'title': TITLES[getRandomNumber(0, TITLES.length - 1)],
-      'adress': getOfferAdress(),
-      'price': getRandomNumber(1000, 40000),
-      'type': TYPES[getRandomNumber(0, TYPES.length - 1)],
-      'rooms': getRandomNumber(1, 5),
-      'guests': getRandomNumber(1, 10),
-      'checkin': TIMES[getRandomNumber(0, TIMES.length -1)],
-      'checkout': TIMES[getRandomNumber(0, TIMES.length - 1)],
-      'features': getRandomFeatures(),
-      'description': DESCRIPTIONS[getRandomNumber(0, DESCRIPTIONS.length - 1)],
-      'photos': getRandomPhotos(),
-    },
-    'location': getRandomLocation(),
+const outAdd = () => {
+  const location = {
+    'lat': getFloatingPointNumber(minLat, maxLat, 5),
+    'lng': getFloatingPointNumber(minLng, maxLng, 5),
   };
-}
+
+  const author = {
+    'avatar': `img/avatars/user${getNumberAvatar()}.png`,
+  };
+
+  const offer = {
+    'title': TITLES[getRandomNumber(0, TITLES.length - 1)],
+    'adress': `${location['lat']}.lat, ${location['lng']}.lng`,
+    'price': getRandomNumber(1000, 40000),
+    'type': TYPES[getRandomNumber(0, TYPES.length - 1)],
+    'rooms': getRandomNumber(1, 5),
+    'guests': getRandomNumber(1, 10),
+    'checkin': TIMES[getRandomNumber(0, TIMES.length -1)],
+    'checkout': TIMES[getRandomNumber(0, TIMES.length - 1)],
+    'features': getRandomFeatures(),
+    'description': DESCRIPTIONS[getRandomNumber(0, DESCRIPTIONS.length - 1)],
+    'photos': getRandomPhotos(),
+  };
+
+  return {
+    author,
+    offer,
+    location,
+  };
+};
 
 const similarOutAdd = Array.from({length: QUANTITYADS}, outAdd);
 
-console.log(similarOutAdd);
+
+// console.log(similarOutAdd);
