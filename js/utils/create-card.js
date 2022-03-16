@@ -1,4 +1,4 @@
-import { createSimilarAdd } from '../data.js';
+import { QUANTITYADS, createSimilarAdd } from '../data.js';
 
 const RUTYPES = {
   'palace': 'Дворец',
@@ -10,7 +10,7 @@ const RUTYPES = {
 
 const mapCanvas = document.querySelector('#map-canvas');
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
-const similarCards = createSimilarAdd();
+const similarCards = createSimilarAdd(QUANTITYADS);
 
 const translateRuType = (item) => {
   const typeRoom = item.offer.type;
