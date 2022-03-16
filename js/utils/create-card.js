@@ -67,10 +67,10 @@ const createAdsCards = () => {
 
     cardTitle.textContent = isValue(card.offer.title, cardTitle);
     cardAdress.textContent = isValue(card.offer.adress, cardAdress);
-    cardPrice.innerHTML = isValue(`${card.offer.price} &#8381;/ночь`, cardPrice); //undefined рублей за ночь
+    cardPrice.innerHTML = `${isValue(card.offer.price, cardPrice)} &#8381;/ночь`;
     cardType.textContent = isValue(translateRuType(card), cardType);
-    cardCapacity.textContent = isValue(`${card.offer.rooms} комнаты для ${card.offer.guests} гостей`, cardCapacity); //undefined
-    cardTime.textContent = isValue(`Заезд после ${card.offer.checkin}, выезд до ${card.offer.checkout}`, cardTime);
+    cardCapacity.textContent = `${isValue(card.offer.rooms, cardCapacity)} комнаты для ${isValue(card.offer.guests, cardCapacity)} гостей`;
+    cardTime.textContent = `Заезд после ${isValue(card.offer.checkin, cardTime)}, выезд до ${isValue(card.offer.checkout, cardTime)}`;
     cardDescription.textContent = isValue(card.offer.description, cardDescription);
     cardAvatar.src = isValue(card.author.avatar, cardAvatar);
 
