@@ -42,7 +42,6 @@ const minLng = 139.70000;
 const maxLng = 139.80000;
 
 const QUANTITYADS = 10;
-
 // out add
 
 const createOutAdd = () => {
@@ -76,7 +75,7 @@ const createOutAdd = () => {
   };
 };
 
-const createSimilarAdd = () => Array.from({length: QUANTITYADS}, createOutAdd);
+const createSimilarAdd = (count) => Array.from({length: count}, createOutAdd);
 
-export { FEATURES, PHOTOLINKS, createSimilarAdd };
+export { FEATURES, PHOTOLINKS, QUANTITYADS, createSimilarAdd };
 
