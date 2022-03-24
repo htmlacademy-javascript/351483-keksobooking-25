@@ -18,6 +18,29 @@ const TITLES = [
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
+const RUTYPES = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalow': 'Бунгало',
+  'hotel': 'Отель',
+};
+
+const PRICETYPES = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
+};
+
+const ROOMOPTIONS = {
+  1: ['1'],
+  2: ['1','2'],
+  3: ['1','2','3'],
+  100: ['0'],
+};
+
 const TIMES = ['12:00', '13:00', '14:00'];
 
 const FEATURES = ['wifi', 'dishwasher','parking','washer', 'elevator', 'conditioner'];
@@ -40,6 +63,8 @@ const minLat = 35.65000;
 const maxLat = 35.70000;
 const minLng = 139.70000;
 const maxLng = 139.80000;
+
+const MAXPRICE = 100000;
 
 const QUANTITYADS = 10;
 // out add
@@ -77,5 +102,5 @@ const createOutAdd = () => {
 
 const createSimilarAdd = (count) => Array.from({length: count}, createOutAdd);
 
-export { FEATURES, PHOTOLINKS, QUANTITYADS, createSimilarAdd };
+export { FEATURES, PHOTOLINKS, QUANTITYADS, PRICETYPES, RUTYPES, ROOMOPTIONS, MAXPRICE, createSimilarAdd };
 
