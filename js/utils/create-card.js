@@ -1,22 +1,11 @@
 import { QUANTITYADS, createSimilarAdd } from '../data.js';
+import { translateRuType } from './translate-ru-type.js';
 
-const RUTYPES = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'bungalow': 'Бунгало',
-  'hotel': 'Отель',
-};
 
 const mapCanvas = document.querySelector('#map-canvas');
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
 const similarCards = createSimilarAdd(QUANTITYADS);
 
-const translateRuType = (item) => {
-  const typeRoom = item.offer.type;
-  const ruTypeRoom = RUTYPES[typeRoom];
-  return ruTypeRoom;
-};
 
 const modifireFeatures = (item, elem) => {
   const featureData = item.offer.features || [];

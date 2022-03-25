@@ -7,6 +7,7 @@ const disablePage = () => {
 
   [...adsForm.elements].forEach((element) => element.setAttribute('disabled', ''));
   [...mapFilter.elements].forEach((element) => element.setAttribute('disabled', ''));
+
 };
 
 const enablePage = () => {
