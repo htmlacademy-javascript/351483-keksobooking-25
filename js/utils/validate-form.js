@@ -45,16 +45,6 @@ const getErrorPrice = () => `Минимальная цена ${PRICETYPES[typeFi
 
 pristine.addValidator(priceAdForm, validatePrice, getErrorPrice);
 
-// Type and Price
-
-typeAdForm.forEach((item) => {
-  item.addEventListener('change', () => {
-    priceAdForm.placeholder = PRICETYPES[item.value];
-    priceAdForm.min = priceAdForm.placeholder;
-    priceAdForm.value = '';
-  });
-});
-
 // Checkin - Checkout
 
 const alignTime = (elemFix, elemBase) => {
@@ -102,3 +92,5 @@ adForm.addEventListener('submit', (evt) => {
 
   return isValid ? evt.target.submit : false;
 });
+
+export { priceAdForm, typeAdForm };
