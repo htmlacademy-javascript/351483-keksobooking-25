@@ -1,9 +1,9 @@
-import './data.js';
-import { enablePage } from './utils/start-page.js';
-import './utils/create-card.js';
-import './utils/validate-form.js';
-import './utils/set-slider.js';
+import { disablePage } from './utils/start-page.js';
+import { initMap, createMarkersGroup } from './utils/set-map.js';
+import { createSimilarAdd } from './data.js';
 
-document.addEventListener('click', enablePage);
+const similarAds = createSimilarAdd();
 
-
+disablePage();
+initMap();
+createMarkersGroup(similarAds);
