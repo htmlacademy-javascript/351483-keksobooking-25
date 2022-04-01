@@ -10,7 +10,7 @@ const disablePage = () => {
 
 };
 
-const enablePage = () => {
+const enableForm = () => {
   adsForm.classList.remove('ad-form--disabled');
   mapFilter.classList.remove('ad-form--disabled');
 
@@ -18,7 +18,5 @@ const enablePage = () => {
   [...mapFilter.elements].forEach((element) => element.removeAttribute('disabled'));
 };
 
-disablePage();
-
-export { enablePage };
+export { enableForm, disablePage };
 

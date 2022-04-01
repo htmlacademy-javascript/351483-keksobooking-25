@@ -14,6 +14,7 @@ const CONFIGADFORM = {
 const pristine = new Pristine(adForm, CONFIGADFORM, true);
 
 const titleAdForm = adForm.querySelector('#title');
+const adressAdForm = document.querySelector('#address');
 const typeFieldAdForm = adForm.querySelector('#type');
 const typeAdForm = adForm.querySelectorAll('[name = "type"]');
 const priceAdForm = adForm.querySelector('#price');
@@ -30,6 +31,12 @@ const timeOutAdForm = adForm.querySelectorAll('[name = "timeout"]');
 const validateTitle = (value) =>  value.length >= 30 && value.length <= 100;
 pristine.addValidator(titleAdForm, validateTitle, 'Количество символов от 30 до 100');
 
+// Adress
+
+const setAddress = ({lat, lng}) => {
+  adressAdForm.value = `${Number(lat.toFixed(5))}, ${Number(lng.toFixed(5))}`;
+};
+
 // Price
 
 const validatePrice = function (value) {
@@ -44,16 +51,6 @@ const validatePrice = function (value) {
 const getErrorPrice = () => `Минимальная цена ${PRICETYPES[typeFieldAdForm.value]}`;
 
 pristine.addValidator(priceAdForm, validatePrice, getErrorPrice);
-
-// Type and Price
-
-typeAdForm.forEach((item) => {
-  item.addEventListener('change', () => {
-    priceAdForm.placeholder = PRICETYPES[item.value];
-    priceAdForm.min = priceAdForm.placeholder;
-    priceAdForm.value = '';
-  });
-});
 
 // Checkin - Checkout
 
@@ -102,3 +99,5 @@ adForm.addEventListener('submit', (evt) => {
 
   return isValid ? evt.target.submit : false;
 });
+
+export { priceAdForm, typeAdForm, setAddress };

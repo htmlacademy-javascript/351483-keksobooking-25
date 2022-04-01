@@ -100,7 +100,7 @@ const createOutAdd = () => {
   };
 };
 
-const createSimilarAdd = (count) => Array.from({length: count}, createOutAdd);
+const createSimilarAdd = (count = QUANTITYADS) => Array.from({length: count}, createOutAdd);
 
-export { FEATURES, PHOTOLINKS, QUANTITYADS, PRICETYPES, RUTYPES, ROOMOPTIONS, MAXPRICE, createSimilarAdd };
+export { FEATURES, PHOTOLINKS, QUANTITYADS, PRICETYPES, RUTYPES, ROOMOPTIONS, MAXPRICE, createOutAdd, createSimilarAdd };
 

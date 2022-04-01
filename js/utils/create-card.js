@@ -1,11 +1,6 @@
-import { QUANTITYADS, createSimilarAdd } from '../data.js';
 import { translateRuType } from './translate-ru-type.js';
 
-
-const mapCanvas = document.querySelector('#map-canvas');
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
-const similarCards = createSimilarAdd(QUANTITYADS);
-
 
 const modifireFeatures = (item, elem) => {
   const featureData = item.offer.features || [];
@@ -41,38 +36,30 @@ const modifirePhotos = (item, elem) => {
 
 const isValue = (value, elem) => value ? value : elem.remove();
 
+const createAd = (card) => {
+  const cardElement = templateCard.cloneNode(true);
+  const cardTitle = cardElement.querySelector('.popup__title');
+  const cardAdress = cardElement.querySelector('.popup__text--address');
+  const cardPrice = cardElement.querySelector('.popup__text--price');
+  const cardType = cardElement.querySelector('.popup__type');
+  const cardCapacity = cardElement.querySelector('.popup__text--capacity');
+  const cardTime = cardElement.querySelector('.popup__text--time');
+  const cardDescription = cardElement.querySelector('.popup__description');
+  const cardAvatar = cardElement.querySelector('.popup__avatar');
 
-const createAdsCards = () => {
-  const adsCards = similarCards.map((card) => {
-    const cardElement = templateCard.cloneNode(true);
-    const cardTitle = cardElement.querySelector('.popup__title');
-    const cardAdress = cardElement.querySelector('.popup__text--address');
-    const cardPrice = cardElement.querySelector('.popup__text--price');
-    const cardType = cardElement.querySelector('.popup__type');
-    const cardCapacity = cardElement.querySelector('.popup__text--capacity');
-    const cardTime = cardElement.querySelector('.popup__text--time');
-    const cardDescription = cardElement.querySelector('.popup__description');
-    const cardAvatar = cardElement.querySelector('.popup__avatar');
+  cardTitle.textContent = isValue(card.offer.title, cardTitle);
+  cardAdress.textContent = isValue(card.offer.adress, cardAdress);
+  cardPrice.innerHTML = `${isValue(card.offer.price, cardPrice)} &#8381;/ночь`;
+  cardType.textContent = isValue(translateRuType(card), cardType);
+  cardCapacity.textContent = `${isValue(card.offer.rooms, cardCapacity)} комнаты для ${isValue(card.offer.guests, cardCapacity)} гостей`;
+  cardTime.textContent = `Заезд после ${isValue(card.offer.checkin, cardTime)}, выезд до ${isValue(card.offer.checkout, cardTime)}`;
+  cardDescription.textContent = isValue(card.offer.description, cardDescription);
+  cardAvatar.src = isValue(card.author.avatar, cardAvatar);
 
-    cardTitle.textContent = isValue(card.offer.title, cardTitle);
-    cardAdress.textContent = isValue(card.offer.adress, cardAdress);
-    cardPrice.innerHTML = `${isValue(card.offer.price, cardPrice)} &#8381;/ночь`;
-    cardType.textContent = isValue(translateRuType(card), cardType);
-    cardCapacity.textContent = `${isValue(card.offer.rooms, cardCapacity)} комнаты для ${isValue(card.offer.guests, cardCapacity)} гостей`;
-    cardTime.textContent = `Заезд после ${isValue(card.offer.checkin, cardTime)}, выезд до ${isValue(card.offer.checkout, cardTime)}`;
-    cardDescription.textContent = isValue(card.offer.description, cardDescription);
-    cardAvatar.src = isValue(card.author.avatar, cardAvatar);
+  modifireFeatures(card, cardElement);
+  modifirePhotos(card, cardElement);
 
-    modifireFeatures(card, cardElement);
-    modifirePhotos(card, cardElement);
-
-    return cardElement;
-  });
-
-  return adsCards;
+  return cardElement;
 };
 
-const adsCardList = createAdsCards();
-
-mapCanvas.append(adsCardList[3]);
-
+export { createAd };
