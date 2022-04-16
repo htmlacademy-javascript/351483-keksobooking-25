@@ -1,22 +1,33 @@
-const adsForm = document.querySelector('.ad-form');
+import { enableSlider, disableSlider } from './slider.js';
+import { sliderPriceAdForm } from './form.js';
+
+const adForm = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
 
 const disablePage = () => {
-  adsForm.classList.add('ad-form--disabled');
-  mapFilter.classList.add('ad-form--disabled');
+  adForm.classList.add('ad-form--disabled');
+  mapFilter.classList.add('map__filters--disabled');
+  [...adForm.elements].forEach((elem) => elem.setAttribute('disabled', ''));
+  [...mapFilter.elements].forEach((elem) => elem.setAttribute('disabled', ''));
 
-  [...adsForm.elements].forEach((element) => element.setAttribute('disabled', ''));
-  [...mapFilter.elements].forEach((element) => element.setAttribute('disabled', ''));
-
+  disableSlider(sliderPriceAdForm);
 };
 
-const enableForm = () => {
-  adsForm.classList.remove('ad-form--disabled');
-  mapFilter.classList.remove('ad-form--disabled');
+const enableFilterForm = () => {
+  mapFilter.classList.remove('map__filters--disabled');
+  [...mapFilter.elements].forEach((elem) => elem.removeAttribute('disabled'));
 
-  [...adsForm.elements].forEach((element) => element.removeAttribute('disabled'));
-  [...mapFilter.elements].forEach((element) => element.removeAttribute('disabled'));
+  enableSlider(sliderPriceAdForm);
 };
 
-export { enableForm, disablePage };
+const enableAdForm = () => {
+  adForm.classList.remove('ad-form--disabled');
+  [...adForm.elements].forEach((elem) => elem.removeAttribute('disabled'));
+};
 
+export {
+  mapFilter,
+  disablePage,
+  enableAdForm,
+  enableFilterForm
+};

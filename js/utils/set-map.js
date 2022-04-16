@@ -1,6 +1,8 @@
-import { setAddress } from './validate-form.js';
+import { setAddress } from './form.js';
 import { createAd } from './create-card.js';
-import { enableForm } from './start-page.js';
+import { enableAdForm } from './start-page.js';
+
+const ADS_COUNT = 10;
 
 const mapOption = {
   DEFAULT_COORDS: {
@@ -15,100 +17,85 @@ const mapOption = {
     MAIN_IMG: 'main-pin.svg',
     DEFAULT_IMG: 'pin.svg',
   },
+  PIN_SIZE: {
+    MAIN: 52,
+    DEFAULT: 40,
+  },
+  ZOOM: {
+    DEFAULT_ZOOM: 13,
+  }
 };
 
 const mapCanvas = document.querySelector('#map-canvas');
-const resetButton = document.querySelector('.ad-form__reset');
 
 const map = L.map(mapCanvas);
-
-const initMap = () => {
-  map.on('load', () => {
-    enableForm();
-    setAddress(mapOption.DEFAULT_COORDS);
-  })
-    .setView({
-      lat: mapOption.DEFAULT_COORDS.lat,
-      lng: mapOption.DEFAULT_COORDS.lng,
-    }, 13);
-};
-
-L.tileLayer(
-  mapOption.TILE.URL,
-  {
-    attribution: mapOption.TILE.ATTR,
-  },
-).addTo(map);
-
-const mainMarkerIcon = L.icon({
-  iconUrl: `../../img/${mapOption.MARKER.MAIN_IMG}`,
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-const mainMarker = L.marker(
-  {
-    lat: mapOption.DEFAULT_COORDS.lat,
-    lng: mapOption.DEFAULT_COORDS.lng,
-  },
-  {
-    draggable: true,
-    icon: mainMarkerIcon,
-  }
-);
-
-mainMarker.addTo(map);
-mainMarker.on('moveend', (evt) => {
-  setAddress(evt.target.getLatLng());
-});
-
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (offerCard) => {
-  const { lat, lng } = offerCard.location;
-  const icon = L.icon(
-    {
-      iconUrl: `../../img/${mapOption.MARKER.DEFAULT_IMG}`,
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    },
-  );
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
+const mainPinIcon = L.icon({
+  iconUrl: `./img/${mapOption.MARKER.MAIN_IMG}`,
+  iconSize: [mapOption.PIN_SIZE.MAIN, mapOption.PIN_SIZE.MAIN],
+  iconAnchor: [mapOption.PIN_SIZE.MAIN / 2, mapOption.PIN_SIZE.MAIN],
+});
 
-  marker.addTo(markerGroup)
-    .bindPopup(createAd(offerCard));
-};
+const pinIcon = L.icon({
+  iconUrl: `./img/${mapOption.MARKER.DEFAULT_IMG}`,
+  iconSize: [mapOption.PIN_SIZE.DEFAULT, mapOption.PIN_SIZE.DEFAULT],
+  iconAnchor: [mapOption.PIN_SIZE.DEFAULT / 2, mapOption.PIN_SIZE.DEFAULT],
+});
 
-const createMarkersGroup = (similarAds) => {
-  similarAds.forEach((offerCard) => {
-    createMarker(offerCard);
+const createPinMarker = () => L.marker(
+  mapOption.DEFAULT_COORDS,
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
+
+const createMarkers = (items) => {
+  const slicePins = items.slice(0, ADS_COUNT);
+  markerGroup.clearLayers();
+  slicePins.forEach((ad) => {
+    const iconPin = L.marker(ad.location, { icon: pinIcon });
+    iconPin
+      .addTo(markerGroup)
+      .bindPopup(createAd(ad));
   });
 };
 
-// Reset
+const onMainPinMove = (evt) => {
+  const {lat, lng} = evt.target.getLatLng();
+  setAddress(`${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+};
 
-resetButton.addEventListener('click', () => {
-  setAddress(mapOption.DEFAULT_COORDS);
-  mainMarker.setLatLng(
+const mainPinMarker = createPinMarker();
+
+const addPinMarker = () => {
+  mainPinMarker.addTo(map);
+  mainPinMarker.on('move', onMainPinMove);
+  setAddress(`${mapOption.DEFAULT_COORDS.lat}, ${mapOption.DEFAULT_COORDS.lng}`);
+};
+
+const initMap = (cb) => {
+  map.on('load', () => {
+    // enableAdForm();
+    cb();
+  })
+    .setView(mapOption.DEFAULT_COORDS, mapOption.ZOOM.DEFAULT_ZOOM);
+
+  L.tileLayer(
+    mapOption.TILE.URL,
     {
-      lat: mapOption.DEFAULT_COORDS.lat,
-      lng: mapOption.DEFAULT_COORDS.lng,
+      attribution: mapOption.TILE.ATTR,
     },
-  );
+  ).addTo(map);
 
-  map.setView(
-    {
-      lat: mapOption.DEFAULT_COORDS.lat,
-      lng: mapOption.DEFAULT_COORDS.lng,
-    }, 15);
-});
+  addPinMarker();
+};
 
-export { initMap, createMarkersGroup };
+const resetMap = () => {
+  map.setView(mapOption.DEFAULT_COORDS, mapOption.ZOOM.DEFAULT_ZOOM);
+  mainPinMarker.setLatLng(new L.LatLng(mapOption.DEFAULT_COORDS.lat, mapOption.DEFAULT_COORDS.lng));
+  setAddress(`${mapOption.DEFAULT_COORDS.lat}, ${mapOption.DEFAULT_COORDS.lng}`);
+};
+
+export {initMap, resetMap, createMarkers,};

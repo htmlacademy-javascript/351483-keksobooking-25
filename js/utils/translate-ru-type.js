@@ -1,4 +1,3 @@
-
 import { RUTYPES } from '../data.js';
 
 const translateRuType = (item) => {
