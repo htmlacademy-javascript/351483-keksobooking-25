@@ -18,7 +18,7 @@ const imageOption = {
 const uploadPhoto = (evt) => {
   const target = evt.target;
   const imageClone = imageTemplate.cloneNode(true);
-  const file = target.files[0];
+  const [file] = target.files;
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
 
