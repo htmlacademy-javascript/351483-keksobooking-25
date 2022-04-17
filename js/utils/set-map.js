@@ -1,6 +1,5 @@
 import { setAddress } from './form.js';
 import { createAd } from './create-card.js';
-import { enableAdForm } from './start-page.js';
 
 const ADS_COUNT = 10;
 
