@@ -1,5 +1,6 @@
-import { unblockSubmitButton } from './form.js';
 import { isEscKey } from './tools.js';
+
+const TIME_POPUP = 3000;
 
 const onPopupClick = (popup) => () => {
   popup.remove();
@@ -21,13 +22,11 @@ const showPopup = (template) => {
   const popup = template.cloneNode(true);
   document.body.append(popup);
 
-  unblockSubmitButton();
-
   closePopupListener(popup);
 
   setTimeout(() => {
     popup.remove();
-  }, 3000);
+  }, TIME_POPUP);
 
   return popup;
 };

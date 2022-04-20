@@ -2,7 +2,7 @@ import { translateRuType } from './translate-ru-type.js';
 
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
 
-const modifireFeatures = (item, elem) => {
+const createFeatureList = (item, elem) => {
   const featureData = item.offer.features || [];
   const featureContainer = elem.querySelector('.popup__features');
   const featureList = featureContainer.querySelectorAll('.popup__feature');
@@ -18,7 +18,7 @@ const modifireFeatures = (item, elem) => {
   });
 };
 
-const modifirePhotos = (item, elem) => {
+const createPhotoList = (item, elem) => {
   const photoData = item.offer.photos || [];
   const photoContainer = elem.querySelector('.popup__photos');
   const photoContainerItem = photoContainer.querySelector('.popup__photo');
@@ -49,15 +49,15 @@ const createAd = (card) => {
 
   cardTitle.textContent = isValue(card.offer.title, cardTitle);
   cardAdress.textContent = isValue(card.offer.adress, cardAdress);
-  cardPrice.innerHTML = `${isValue(card.offer.price, cardPrice)} &#8381;/ночь`;
+  cardPrice.textContent = `${isValue(card.offer.price, cardPrice)}₽/ночь`;
   cardType.textContent = isValue(translateRuType(card), cardType);
   cardCapacity.textContent = `${isValue(card.offer.rooms, cardCapacity)} комнаты для ${isValue(card.offer.guests, cardCapacity)} гостей`;
   cardTime.textContent = `Заезд после ${isValue(card.offer.checkin, cardTime)}, выезд до ${isValue(card.offer.checkout, cardTime)}`;
   cardDescription.textContent = isValue(card.offer.description, cardDescription);
   cardAvatar.src = isValue(card.author.avatar, cardAvatar);
 
-  modifireFeatures(card, cardElement);
-  modifirePhotos(card, cardElement);
+  createFeatureList(card, cardElement);
+  createPhotoList(card, cardElement);
 
   return cardElement;
 };

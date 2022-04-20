@@ -9,13 +9,14 @@ import {initMap, createMarkers} from './utils/set-map.js';
 disablePage();
 
 const getSimilarAds = () => {
+  enableAdForm();
   getData((data) => {
     createMarkers(data);
-    setFiltersListeners(data);
     enableFilterForm();
-    enableAdForm();
+    setFiltersListeners(data);
   },
   () => showPopup(dataErrorTemplate));
 };
 
 initMap(getSimilarAds);
+

@@ -15,7 +15,7 @@ const imageOption = {
   },
 };
 
-const uploadPhoto = (evt) => {
+const onPhotoLoad = (evt) => {
   const target = evt.target;
   const imageClone = imageTemplate.cloneNode(true);
   const [file] = target.files;
@@ -24,7 +24,7 @@ const uploadPhoto = (evt) => {
 
   if(matches){
     const reader = new FileReader();
-    reader.addEventListener('load', () =>{
+    reader.addEventListener('load', () => {
       imageClone.alt = imageOption[target.id].alt;
       imageClone.src = reader.result;
       imageOption[target.id].preview.textContent = '';
@@ -40,5 +40,5 @@ const resetPhoto = () => {
   avatarPreview.append(avatarPreviewDefault);
 };
 
-export { uploadPhoto, resetPhoto };
+export { onPhotoLoad, resetPhoto };
 

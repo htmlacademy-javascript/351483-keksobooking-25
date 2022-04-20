@@ -76,7 +76,6 @@ const addPinMarker = () => {
 
 const initMap = (cb) => {
   map.on('load', () => {
-    // enableAdForm();
     cb();
   })
     .setView(mapOption.DEFAULT_COORDS, mapOption.ZOOM.DEFAULT_ZOOM);
