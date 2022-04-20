@@ -17,7 +17,8 @@ const getData = (onSuccess, onFail) => {
 };
 
 const sendData = (onSuccess, onFail, body) => {
-  fetch(SERVER,
+  fetch(
+    SERVER,
     {
       method: 'POST',
       body,
@@ -26,6 +27,8 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
+      } else {
+        onFail();
       }
     })
     .catch(() => {

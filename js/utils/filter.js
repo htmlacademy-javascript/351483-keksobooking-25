@@ -30,7 +30,7 @@ const checkPriceValue = (item) => {
       return (item.offer.price  < PRICE_RANGE.LOW);
     case 'high':
       return  (item.offer.price  > PRICE_RANGE.HIGH);
-    default:
+    case 'any':
       return true;
   }
 };

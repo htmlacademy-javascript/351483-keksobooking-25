@@ -1,6 +1,6 @@
 import { ROOMOPTIONS, MIN_PRICE_TYPES, MAX_PRICE } from '../data.js';
 import { sendData } from './api.js';
-import { uploadPhoto, resetPhoto } from './avatar-photo.js';
+import { onPhotoLoad, resetPhoto } from './avatar-photo.js';
 import { showPopup } from './popup.js';
 import { createSlider, updateSlider, resetSlider } from './slider.js';
 import { resetMap } from './set-map.js';
@@ -60,11 +60,6 @@ const setAddress = (value) => {
 // Price
 
 function validatePrice (value) {
-  if (this.value > MAX_PRICE) {
-    this.value = this.value.slice(0,5);
-  } else if (this.value.length > 6) {
-    this.value = this.value.slice(0, 6);
-  }
   return value.length && parseInt(value, 10) >= MIN_PRICE_TYPES[typeFieldAdForm.value] && parseInt(value, 10) <= MAX_PRICE;
 }
 
@@ -145,11 +140,11 @@ pristine.addValidator(capacity, validateRoom, getErrorRoom);
 
 // Avatar preview
 
-avatarChooser.addEventListener('change', uploadPhoto);
+avatarChooser.addEventListener('change', onPhotoLoad);
 
 // Photo preview
 
-photoChooser.addEventListener('change', uploadPhoto);
+photoChooser.addEventListener('change', onPhotoLoad);
 
 // Block reset
 
@@ -182,18 +177,20 @@ const unblockSubmitButton = () => {
 const setAdFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    blockSubmitButton();
 
     const isValid = pristine.validate();
 
     if (isValid) {
+      blockSubmitButton();
       sendData(
         () => {
           showPopup(successTemplate);
+          unblockSubmitButton();
           resetForms();
         },
         () => {
           showPopup(errorTemplate);
+          unblockSubmitButton();
 
         },
         new FormData(evt.target)
@@ -203,6 +200,7 @@ const setAdFormSubmit = () => {
     }
   });
 };
+
 setAdFormSubmit();
 
 export {
@@ -213,5 +211,4 @@ export {
   dataErrorTemplate,
   setAddress,
   setDefaultPrice,
-  unblockSubmitButton,
 };
